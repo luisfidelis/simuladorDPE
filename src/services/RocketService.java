@@ -7,7 +7,7 @@ public class RocketService {
     private static double velocidade_x_k_metros_por_segundo;
 	private static double velocidade_y_k_metros_por_segundo;
     private static double velocidade_k_metros_por_segundo;
-    private static double angulo_k_rad;
+    private static double angulo_k_rad; 
     private static double altitude_k_metros;
     private static double x_k_metros;
     private static double forca_lift_k_newtons;
@@ -46,12 +46,13 @@ public class RocketService {
         double coeficiente_drag_fuselagem = foguete.getCoeficiente_drag_fuselagem();
         double forca_drag_parasita_newtons = foguete.getForca_drag_parasita_newtons();
         double aceleracao_gravidade = foguete.getAceleracao_gravidade();
+        double diametro_tubo_metros = foguete.getDiametro_tubo_metros();
         // ---
         
         angulo_k_rad = Math.atan2(velocidade_y_k_metros_por_segundo, velocidade_x_k_metros_por_segundo);
 
         forca_lift_k_newtons = (densidade_do_ar_kg_por_m3 * coeficiente_lift * Math.pow(velocidade_k_metros_por_segundo, 2) * corda_media_da_asa_metro * comprimento_da_asa_metro) / 2;
-        forca_drag_fuselagem_k_newtons = (densidade_do_ar_kg_por_m3 * coeficiente_drag_fuselagem * Math.pow(velocidade_k_metros_por_segundo, 2) * corda_media_da_asa_metro * comprimento_da_asa_metro) / 2;
+        forca_drag_fuselagem_k_newtons = (densidade_do_ar_kg_por_m3 * coeficiente_drag_fuselagem * Math.pow(velocidade_k_metros_por_segundo, 2) * Math.PI * Math.pow(diametro_tubo_metros/2, 2) / 2);
         forca_drag_k_newtons = (densidade_do_ar_kg_por_m3 * coeficiente_drag_asa * Math.pow(velocidade_k_metros_por_segundo, 2) * corda_media_da_asa_metro * comprimento_da_asa_metro) / 2 + forca_drag_fuselagem_k_newtons + forca_drag_induzida_newtons + forca_drag_parasita_newtons;
         forca_resultante_k_newtons = Math.sqrt(Math.pow(forca_lift_k_newtons * Math.cos(angulo_k_rad+Math.PI/2) + forca_drag_k_newtons * Math.cos(Math.PI + angulo_k_rad), 2) + Math.pow(forca_lift_k_newtons*Math.sin(Math.PI/2+angulo_k_rad) + forca_drag_k_newtons * Math.sin(Math.PI + angulo_k_rad)-massa_foguete_kilogramas*aceleracao_gravidade, 2));
         angulo_forca_resultante_k_rad = Math.atan2(forca_lift_k_newtons*Math.sin(Math.PI/2+angulo_k_rad) + forca_drag_k_newtons * Math.sin(Math.PI + angulo_k_rad) - massa_foguete_kilogramas * aceleracao_gravidade, forca_lift_k_newtons * Math.cos(angulo_k_rad+Math.PI/2) + forca_drag_k_newtons * Math.cos(Math.PI + angulo_k_rad));

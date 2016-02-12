@@ -13,13 +13,14 @@ public class Rocket {
     private double delta_tempo_segundos;
     private double coeficiente_drag_fuselagem;
     private double impulso_motor_newton_segundo; //Impulso classe D. Altitude recorde ~500m
-    private double tempo_queima_segundos ;
-
+    private double tempo_queima_segundos;
+    private double diametro_tubo_metros;
+    private double altitude_objetivo;
 
     //Provisório
     private double coeficiente_lift = 0;
-    private double coeficiente_drag_asa = 0.007;
-    private double coeficiente_lift_max = 1.61;
+	private double coeficiente_drag_asa = 0.007;
+    private double coeficiente_lift_max = 3.0;
     private double coeficiente_drag_max=0.024;
     private double coeficiente_lift_min =-0.2;
     private double coeficiente_drag_min = 0.007;
@@ -44,7 +45,9 @@ public class Rocket {
             double delta_tempo_segundos, 
             double coeficiente_drag_fuselagem, 
             double impulso_motor_newton_segundo,
-            double tempo_queima_segundos
+            double tempo_queima_segundos,
+            double diametro_tubo_metros,
+            double altitude_objetivo
         ){
             this.massa_foguete_kilogramas = massa_foguete_kilogramas;
             this.aceleracao_gravidade = aceleracao_gravidade;
@@ -56,7 +59,9 @@ public class Rocket {
             this.delta_tempo_segundos = delta_tempo_segundos; 
             this.coeficiente_drag_fuselagem = coeficiente_drag_fuselagem; 
             this.impulso_motor_newton_segundo = impulso_motor_newton_segundo;
-            this.tempo_queima_segundos= tempo_queima_segundos;   
+            this.tempo_queima_segundos = tempo_queima_segundos; 
+            this.diametro_tubo_metros = diametro_tubo_metros;
+            this.altitude_objetivo = altitude_objetivo; 
         }
 
     //Get/Set	
@@ -90,6 +95,22 @@ public class Rocket {
     }
     public void setImpulso_motor_newton_segundo(double impulso_motor_newton_segundo){
         this.impulso_motor_newton_segundo = impulso_motor_newton_segundo;
+    }
+
+    public void setDiametro_tubo_metros(double diametro_tubo_metros) {
+        this.diametro_tubo_metros = diametro_tubo_metros;
+    }
+
+    public void setAltitude_objetivo(double altitude_objetivo) {
+        this.altitude_objetivo = altitude_objetivo;
+    }
+
+    public double getDiametro_tubo_metros() {
+        return diametro_tubo_metros;
+    }
+
+    public double getAltitude_objetivo() {
+        return altitude_objetivo;
     }
    
     public  double getMassa_foguete_kilogramas(){
