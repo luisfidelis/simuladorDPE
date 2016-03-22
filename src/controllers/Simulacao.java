@@ -4,6 +4,7 @@ package controllers;
 
 import models.Rocket;
 import services.RocketService;
+import util.Comunicacao;
 
 public class Simulacao {
     
@@ -38,15 +39,40 @@ public class Simulacao {
 		
 		RocketService.initialize(foguete);
 
+		//------>Declara e inicializa a classe de comunicação
+		Comunicacao comm = new Comunicacao();
+		comm.initialize();
+
+		//------> Inicializa uma thread que aguarda os eventos de receber dados
+		Thread t = new Thread(){
+			public void run(){
+			try {Thread.sleep(1000000);} catch (InterruptedException ie) {}
+			}
+		};
+		
+		//------->Starta a thread e avisa no console que iniciou
+		t.start();
+		System.out.println("Started");
+
 		while(RocketService.getAltitude_k_metros() > 200){
+
 			RocketService.atualizaMovimentoFoguete(foguete);
 			tempo = count * foguete.getDelta_tempo_segundos();
+
 			x = RocketService.getX_k_metros();
 			y = RocketService.getAltitude_k_metros();
+
 			//dados.addValue(x, "Trajetória", y);
+			
 			System.out.println("Tempo:" + tempo + " / X:" + x + " / Y:" + y);
+
 			count++;
+			
 		}
+		
+		/****ESTE TRECHO ESTÁ SENDO USADO PARA TESTES, IGNORAR.
+		try{
+			comm.automacao(3.123);}catch(Exception e){}
+		}*/
 	}
-	
 }
