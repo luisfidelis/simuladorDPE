@@ -40,8 +40,8 @@ public class Simulacao {
 		RocketService.initialize(foguete);
 
 		//------>Declara e inicializa a classe de comunicação
-		Comunicacao comm = new Comunicacao();
-		comm.initialize();
+	//	Comunicacao comm = new Comunicacao();
+	//	comm.initialize();
 
 		//------> Inicializa uma thread que aguarda os eventos de receber dados
 		Thread t = new Thread(){
