@@ -4,19 +4,24 @@ import models.*;
 public class RocketService {
 
     //Dados usados no calculo
-    private static double velocidade_x_k_metros_por_segundo;
-	private static double velocidade_y_k_metros_por_segundo;
-    private static double velocidade_k_metros_por_segundo;
-    private static double angulo_k_rad; 
-    private static double altitude_k_metros;
-    private static double x_k_metros;
-    private static double forca_lift_k_newtons;
-    private static double forca_drag_k_newtons;
-    private static double forca_drag_fuselagem_k_newtons;
-    private static double forca_resultante_k_newtons;
-    private static double angulo_forca_resultante_k_rad;
+    private double velocidade_x_k_metros_por_segundo;
+	private double velocidade_y_k_metros_por_segundo;
+    private double velocidade_k_metros_por_segundo;
+    private double angulo_k_rad; 
+    private double altitude_k_metros;
+    private double x_k_metros;
+    private double forca_lift_k_newtons;
+    private double forca_drag_k_newtons;
+    private double forca_drag_fuselagem_k_newtons;
+    private double forca_resultante_k_newtons;
+    private double angulo_forca_resultante_k_rad;
+    private double altitudeMaxima;
 
-    public static void initialize(Rocket foguete){
+    public RocketService(){
+        this.altitudeMaxima = 0;
+    }
+
+    public void initialize(Rocket foguete){
 
         foguete.setForca_motor(calcularForca_motor(foguete.getImpulso_motor_newton_segundo(), foguete.getTempo_queima_segundos()));
         foguete.setAltitude_inical_metros(calcularAltitude_inical_metros(foguete.getForca_motor(), foguete.getMassa_foguete_kilogramas(), foguete.getTempo_queima_segundos())); 
@@ -33,7 +38,7 @@ public class RocketService {
         velocidade_k_metros_por_segundo = foguete.getVelocidade_inicial_metros_por_segundo();
     }
 
-    public static void atualizaMovimentoFoguete(Rocket foguete){
+    public void atualizaMovimentoFoguete(Rocket foguete){
         // --- Parametros do foguete
         double massa_foguete_kilogramas = foguete.getMassa_foguete_kilogramas();
         double densidade_do_ar_kg_por_m3 = foguete.getDensidade_do_ar_kg_por_m3();
@@ -61,6 +66,10 @@ public class RocketService {
         velocidade_x_k_metros_por_segundo += forca_resultante_k_newtons * Math.cos(angulo_forca_resultante_k_rad) / massa_foguete_kilogramas * delta_tempo_segundos;
         velocidade_y_k_metros_por_segundo += forca_resultante_k_newtons * Math.sin(angulo_forca_resultante_k_rad) / massa_foguete_kilogramas * delta_tempo_segundos;
         velocidade_k_metros_por_segundo = Math.sqrt(Math.pow(velocidade_x_k_metros_por_segundo, 2) + Math.pow(velocidade_y_k_metros_por_segundo, 2));
+
+        //Registra a maior altitude atingida
+        if(altitude_k_metros >= altitudeMaxima)
+            altitudeMaxima = altitude_k_metros;
     }
 
     public static double calcularAltitude_inical_metros(
@@ -110,93 +119,101 @@ public class RocketService {
     {
         return impulso_motor_newton_segundo / tempo_queima_segundos;
     }
-    
-    public static double getVelocidade_x_k_metros_por_segundo() {
+
+	public double getVelocidade_x_k_metros_por_segundo() {
 		return velocidade_x_k_metros_por_segundo;
 	}
 
-	public static void setVelocidade_x_k_metros_por_segundo(double velocidade_x_k_metros_por_segundo) {
-		RocketService.velocidade_x_k_metros_por_segundo = velocidade_x_k_metros_por_segundo;
+	public void setVelocidade_x_k_metros_por_segundo(double velocidade_x_k_metros_por_segundo) {
+		this.velocidade_x_k_metros_por_segundo = velocidade_x_k_metros_por_segundo;
 	}
 
-	public static double getVelocidade_y_k_metros_por_segundo() {
+	public double getVelocidade_y_k_metros_por_segundo() {
 		return velocidade_y_k_metros_por_segundo;
 	}
 
-	public static void setVelocidade_y_k_metros_por_segundo(double velocidade_y_k_metros_por_segundo) {
-		RocketService.velocidade_y_k_metros_por_segundo = velocidade_y_k_metros_por_segundo;
+	public void setVelocidade_y_k_metros_por_segundo(double velocidade_y_k_metros_por_segundo) {
+		this.velocidade_y_k_metros_por_segundo = velocidade_y_k_metros_por_segundo;
 	}
 
-	public static double getVelocidade_k_metros_por_segundo() {
+	public double getVelocidade_k_metros_por_segundo() {
 		return velocidade_k_metros_por_segundo;
 	}
 
-	public static void setVelocidade_k_metros_por_segundo(double velocidade_k_metros_por_segundo) {
-		RocketService.velocidade_k_metros_por_segundo = velocidade_k_metros_por_segundo;
+	public void setVelocidade_k_metros_por_segundo(double velocidade_k_metros_por_segundo) {
+		this.velocidade_k_metros_por_segundo = velocidade_k_metros_por_segundo;
 	}
 
-	public static double getAngulo_k_rad() {
+	public double getAngulo_k_rad() {
 		return angulo_k_rad;
 	}
 
-	public static void setAngulo_k_rad(double angulo_k_rad) {
-		RocketService.angulo_k_rad = angulo_k_rad;
+	public void setAngulo_k_rad(double angulo_k_rad) {
+		this.angulo_k_rad = angulo_k_rad;
 	}
 
-	public static double getAltitude_k_metros() {
+	public double getAltitude_k_metros() {
 		return altitude_k_metros;
 	}
 
-	public static void setAltitude_k_metros(double altitude_k_metros) {
-		RocketService.altitude_k_metros = altitude_k_metros;
+	public void setAltitude_k_metros(double altitude_k_metros) {
+		this.altitude_k_metros = altitude_k_metros;
 	}
 
-	public static double getX_k_metros() {
+	public double getX_k_metros() {
 		return x_k_metros;
 	}
 
-	public static void setX_k_metros(double x_k_metros) {
-		RocketService.x_k_metros = x_k_metros;
+	public void setX_k_metros(double x_k_metros) {
+		this.x_k_metros = x_k_metros;
 	}
 
-	public static double getForca_lift_k_newtons() {
+	public double getForca_lift_k_newtons() {
 		return forca_lift_k_newtons;
 	}
 
-	public static void setForca_lift_k_newtons(double forca_lift_k_newtons) {
-		RocketService.forca_lift_k_newtons = forca_lift_k_newtons;
+	public void setForca_lift_k_newtons(double forca_lift_k_newtons) {
+		this.forca_lift_k_newtons = forca_lift_k_newtons;
 	}
 
-	public static double getForca_drag_k_newtons() {
+	public double getForca_drag_k_newtons() {
 		return forca_drag_k_newtons;
 	}
 
-	public static void setForca_drag_k_newtons(double forca_drag_k_newtons) {
-		RocketService.forca_drag_k_newtons = forca_drag_k_newtons;
+	public void setForca_drag_k_newtons(double forca_drag_k_newtons) {
+		this.forca_drag_k_newtons = forca_drag_k_newtons;
 	}
 
-	public static double getForca_drag_fuselagem_k_newtons() {
+	public double getForca_drag_fuselagem_k_newtons() {
 		return forca_drag_fuselagem_k_newtons;
 	}
 
-	public static void setForca_drag_fuselagem_k_newtons(double forca_drag_fuselagem_k_newtons) {
-		RocketService.forca_drag_fuselagem_k_newtons = forca_drag_fuselagem_k_newtons;
+	public void setForca_drag_fuselagem_k_newtons(double forca_drag_fuselagem_k_newtons) {
+		this.forca_drag_fuselagem_k_newtons = forca_drag_fuselagem_k_newtons;
 	}
 
-	public static double getForca_resultante_k_newtons() {
+	public double getForca_resultante_k_newtons() {
 		return forca_resultante_k_newtons;
 	}
 
-	public static void setForca_resultante_k_newtons(double forca_resultante_k_newtons) {
-		RocketService.forca_resultante_k_newtons = forca_resultante_k_newtons;
+	public void setForca_resultante_k_newtons(double forca_resultante_k_newtons) {
+		this.forca_resultante_k_newtons = forca_resultante_k_newtons;
 	}
 
-	public static double getAngulo_forca_resultante_k_rad() {
+	public double getAngulo_forca_resultante_k_rad() {
 		return angulo_forca_resultante_k_rad;
 	}
 
-	public static void setAngulo_forca_resultante_k_rad(double angulo_forca_resultante_k_rad) {
-		RocketService.angulo_forca_resultante_k_rad = angulo_forca_resultante_k_rad;
+	public void setAngulo_forca_resultante_k_rad(double angulo_forca_resultante_k_rad) {
+		this.angulo_forca_resultante_k_rad = angulo_forca_resultante_k_rad;
 	}
 
+	public double getAltitudeMaxima() {
+		return altitudeMaxima;
+	}
+
+	public void setAltitudeMaxima(double altitudeMaxima) {
+		this.altitudeMaxima = altitudeMaxima;
+	}
 }
+   

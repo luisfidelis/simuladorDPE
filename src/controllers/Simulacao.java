@@ -8,6 +8,7 @@ import org.jfree.ui.RefineryUtilities;
 //import org.jfree.data.category.DefaultCategoryDataset;
 
 import models.Rocket;
+import services.Automacao;
 import services.RocketService;
 import util.Comunicacao; 
 
@@ -23,12 +24,11 @@ public class Simulacao {
 
 		double tempo, x, y;
 		int count;
-
-		long startTime;
-		long currentTime;
 		
 		List<Double> xValues = new ArrayList<Double>();
 		List<Double> yValues = new ArrayList<Double>();
+
+		RocketService service = new RocketService();
 		
 		count = 0;
 
@@ -46,33 +46,17 @@ public class Simulacao {
 				impulso_motor_newton_segundo, tempo_queima_segundos, diametro_tubo_metros, altitude_objetivo,
 				coeficiente_lift_max, coeficiente_drag_asa, coeficiente_drag_max);
 		
-		RocketService.initialize(foguete);
+		service.initialize(foguete);
 
-<<<<<<< HEAD
-=======
-		//------>Declara e inicializa a classe de comunicação
-	//	Comunicacao comm = new Comunicacao();
-	//	comm.initialize();
+		while(service.getAltitude_k_metros() > 200){
 
-		//------> Inicializa uma thread que aguarda os eventos de receber dados
-		Thread t = new Thread(){
-			public void run(){
-			try {Thread.sleep(1000000);} catch (InterruptedException ie) {}
-			}
-		};
-		
-		//------->Starta a thread e avisa no console que iniciou
-		t.start();
-		System.out.println("Started");
-
->>>>>>> 5e4dbcb7585f5885bb003adf36e147963b2c1dd8
-		while(RocketService.getAltitude_k_metros() > 200){
-
-			RocketService.atualizaMovimentoFoguete(foguete);
+			service.atualizaMovimentoFoguete(foguete);
 			tempo = count * foguete.getDelta_tempo_segundos();
 
-			x = RocketService.getX_k_metros();
-			y = RocketService.getAltitude_k_metros();
+			Automacao.corrigeAnguloAsa(foguete, 400);
+			
+			x = service.getX_k_metros();
+			y = service.getAltitude_k_metros();
 			
 			xValues.add(x);
 			yValues.add(y);
