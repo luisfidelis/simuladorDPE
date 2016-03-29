@@ -1,3 +1,0 @@
-Content\background.xnb
-Content\esquematico_foguete.xnb
-Content\abcd.xnb

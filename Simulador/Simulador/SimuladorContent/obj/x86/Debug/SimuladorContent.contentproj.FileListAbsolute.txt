@@ -1,2 +1,0 @@
-c:\users\lucas milagres\documents\visual studio 2015\Projects\Simulador\Simulador\SimuladorContent\obj\x86\Debug\SimuladorContent.contentprojResolveAssemblyReference.cache
-C:\Users\lucas.milagres\Documents\Visual Studio 2015\Projects\Simulador\Simulador\SimuladorContent\obj\x86\Debug\SimuladorContent.contentprojResolveAssemblyReference.cache
