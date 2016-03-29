@@ -20,9 +20,9 @@ public class Comunicacao implements SerialPortEventListener {
 	* converting the bytes into characters 
 	* making the displayed results codepage independent
 	*/
-	private BufferedReader input;
+	public BufferedReader input;
 	/** The output stream to the port */
-	private OutputStream output;
+	public OutputStream output;
 	/** Milliseconds to block while waiting for port open */
 	private static final int TIME_OUT = 2000;
 	/** Default bits per second for COM port. */
@@ -88,26 +88,32 @@ public class Comunicacao implements SerialPortEventListener {
 	public synchronized void serialEvent(SerialPortEvent oEvent) {
 		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
 			try {
+				
 				String inputLine=input.readLine();
 				
-				float b;
-				b = Float.parseFloat(inputLine)/100000;
+				//float b;
+				//int b;
+				//b = Integer.parseInt(inputLine);
+				//b = Float.parseFloat(inputLine)/100000;
 				
-				System.out.println(b);
+				//System.out.println("RECEBIDO");
+				
+				System.out.println(inputLine);
 			} catch (Exception e) {
 				System.err.println(e.toString());
 			}
 		}
 		// Ignore all the other eventTypes, but you should consider the other ones.
 	}
-	
-	public void automacao(double angulo)throws Exception{
+
+	public void automacao(int angulo)throws Exception{
 		
-		int anguloInt = 10;
+		//int anguloInt = 10;
 		
 		//angulo = angulo + 1;
+		
 		try{
-			output.write(anguloInt);
+			output.write(angulo);
 		}catch(Exception e){}
 		
 		return;

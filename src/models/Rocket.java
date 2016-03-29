@@ -16,15 +16,14 @@ public class Rocket {
     private double tempo_queima_segundos;
     private double diametro_tubo_metros;
     private double altitude_objetivo;
+    private double coeficiente_lift;
 
-    //Provisório
-    private double coeficiente_lift = 0;
-	private double coeficiente_drag_asa = 0.007;
-    private double coeficiente_lift_max = 3.0;
-    private double coeficiente_drag_max=0.024;
-    private double coeficiente_lift_min =-0.2;
-    private double coeficiente_drag_min = 0.007;
-
+    private double coeficiente_lift_max;
+	private double coeficiente_drag_asa;
+    private double coeficiente_drag_max;
+    private double coeficiente_lift_min;
+    private double coeficiente_drag_min;
+    
     //Dados a serem calculados
     private double altitude_inical_metros;
     private double velocidade_inicial_metros_por_segundo;
@@ -47,7 +46,10 @@ public class Rocket {
             double impulso_motor_newton_segundo,
             double tempo_queima_segundos,
             double diametro_tubo_metros,
-            double altitude_objetivo
+            double altitude_objetivo,
+            double coeficiente_lift_max,
+            double coeficiente_drag_asa,
+            double coeficiente_drag_max
         ){
             this.massa_foguete_kilogramas = massa_foguete_kilogramas;
             this.aceleracao_gravidade = aceleracao_gravidade;
@@ -61,7 +63,10 @@ public class Rocket {
             this.impulso_motor_newton_segundo = impulso_motor_newton_segundo;
             this.tempo_queima_segundos = tempo_queima_segundos; 
             this.diametro_tubo_metros = diametro_tubo_metros;
-            this.altitude_objetivo = altitude_objetivo; 
+            this.altitude_objetivo = altitude_objetivo;
+            this.coeficiente_lift_max = coeficiente_lift_max;
+            this.coeficiente_drag_asa = coeficiente_drag_asa;
+            this.coeficiente_drag_max = coeficiente_drag_max;
         }
 
     //Get/Set	
@@ -150,14 +155,6 @@ public class Rocket {
 
 	public void setTempo_queima_segundos(double tempo_queima_segundos) {
 		this.tempo_queima_segundos = tempo_queima_segundos;
-	}
-
-	public double getCoeficiente_lift() {
-		return coeficiente_lift;
-	}
-
-	public void setCoeficiente_lift(double coeficiente_lift) {
-		this.coeficiente_lift = coeficiente_lift;
 	}
 
 	public double getCoeficiente_drag_asa() {
@@ -254,6 +251,14 @@ public class Rocket {
 
 	public void setForca_motor(double forca_motor) {
 		this.forca_motor = forca_motor;
+	}
+
+	public double getCoeficiente_lift() {
+		return coeficiente_lift;
+	}
+
+	public void setCoeficiente_lift(double coeficiente_lift) {
+		this.coeficiente_lift = coeficiente_lift;
 	}
     
 
