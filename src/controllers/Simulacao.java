@@ -48,6 +48,24 @@ public class Simulacao {
 		
 		RocketService.initialize(foguete);
 
+<<<<<<< HEAD
+=======
+		//------>Declara e inicializa a classe de comunicação
+	//	Comunicacao comm = new Comunicacao();
+	//	comm.initialize();
+
+		//------> Inicializa uma thread que aguarda os eventos de receber dados
+		Thread t = new Thread(){
+			public void run(){
+			try {Thread.sleep(1000000);} catch (InterruptedException ie) {}
+			}
+		};
+		
+		//------->Starta a thread e avisa no console que iniciou
+		t.start();
+		System.out.println("Started");
+
+>>>>>>> 5e4dbcb7585f5885bb003adf36e147963b2c1dd8
 		while(RocketService.getAltitude_k_metros() > 200){
 
 			RocketService.atualizaMovimentoFoguete(foguete);
