@@ -96,7 +96,23 @@ public class Properties extends JFrame {
     JTextField jtf_anguloInicial = new JTextField();
     JTextField jtf_passoTempo = new JTextField();
     JTextField jtf_altitudeObjetivo = new JTextField();
-
+    
+    // ------ DADOS DA AUTOMAÇÃO
+    
+     JLabel lbl_DADOS_AUTOMACAO = new JLabel("Constantes de automação");
+    
+    
+    JLabel lbl_kp = new JLabel("KP");
+    JLabel lbl_ki = new JLabel("KI");
+    JLabel lbl_kd = new JLabel("KD");
+    
+    JTextField jtf_kp = new JTextField();
+    JTextField jtf_ki = new JTextField();
+    JTextField jtf_kd = new JTextField();
+    
+    
+    
+    
     
     JButton initSimulation = new JButton("Iniciar");
     ImageIcon bkg = new ImageIcon(currentPath+"\\src\\images\\dpe.jpg");
@@ -176,6 +192,21 @@ public class Properties extends JFrame {
      jtf_anguloInicial.setText("45");
      jtf_passoTempo.setText("10");
      jtf_altitudeObjetivo.setText("400");
+     
+     // ----- DADOS DA AUTOMAÇÃO
+     
+     lbl_DADOS_AUTOMACAO.setBounds(370,365,200,20);
+    
+    
+     lbl_ki.setBounds(360,50,200,20);
+     lbl_kp.setBounds(360,75,200,20);
+     lbl_kd.setBounds(360,100,200,20);
+     
+     jtf_ki.setBounds(570,50,200,20);
+     jtf_kp.setBounds(570,75,200,20);
+     jtf_kd.setBounds(570,100,200,20);
+     
+     
         
         initSimulation.setBounds(440,600,220,40);
         initSimulation.setBackground(new Color(135,206,250,250));
@@ -206,7 +237,11 @@ public class Properties extends JFrame {
                     Double jtf_anguloInicialValue = Math.toRadians(Double.parseDouble(jtf_anguloInicial.getText()));
                     Double jtf_passoTempoValue = Double.parseDouble(jtf_passoTempo.getText())/1000;
                     Double jtf_altitudeObjetivoValue = Double.parseDouble(jtf_altitudeObjetivo.getText());
-
+                    
+                    Double jtf_kiValue = Double.parseDouble(jtf_ki.getText());
+                    Double jtf_kpValue = Double.parseDouble(jtf_kp.getText());
+                    Double jtf_kdValue = Double.parseDouble(jtf_kd.getText());
+                    
                    // SimulationGraphic simulGraph = new SimulationGraphic(jtf_massaValue,jtf_diametroTuboValue,jtf_coefDragFusValue,jtf_impulsoMotorValue,jtf_tempoQueimaValue,jtf_coefLiftSimulValue,jtf_coefDragSimulValue,jtf_coefLiftMaxValue,jtf_coefDragMaxValue,jtf_cordaMediaAsaValue,jtf_envergaduraAsaValue,jtf_aceleracaoGravidValue,jtf_densidadeArValue,jtf_anguloInicialValue,jtf_passoTempoValue,jtf_altitudeObjetivoValue);
                     frame.dispose();
                     
@@ -217,7 +252,7 @@ public class Properties extends JFrame {
 			, jtf_impulsoMotorValue, jtf_tempoQueimaValue, jtf_coefLiftSimulValue
 			, jtf_aceleracaoGravidValue, jtf_densidadeArValue, jtf_altitudeObjetivoValue
 			, jtf_envergaduraAsaValue, jtf_cordaMediaAsaValue, jtf_passoTempoValue, jtf_anguloInicialValue
-			, jtf_coefLiftMaxValue, jtf_coefDragSimulValue, jtf_coefDragMaxValue);
+			, jtf_coefLiftMaxValue, jtf_coefDragSimulValue, jtf_coefDragMaxValue, jtf_kiValue, jtf_kpValue, jtf_kdValue);
                 }
             }   
         };
@@ -260,6 +295,15 @@ public class Properties extends JFrame {
     container.add(jtf_anguloInicial);
     container.add(jtf_passoTempo);
     container.add(jtf_altitudeObjetivo);
+    
+    container.add(lbl_DADOS_AUTOMACAO);
+    container.add(lbl_ki);
+    container.add(lbl_kp);
+    container.add(lbl_kd);
+    
+     container.add(jtf_ki);
+    container.add(jtf_kp);
+    container.add(jtf_kd);
         
         
         pack();
