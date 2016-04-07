@@ -1,15 +1,17 @@
 package controllers;
 
+import frames.LineChart;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RefineryUtilities;
+//import org.jfree.ui.ApplicationFrame;
+//import org.jfree.ui.RefineryUtilities;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.ui.RefineryUtilities;
 
 import models.Rocket;
 import services.Automacao;
@@ -71,6 +73,11 @@ public class Simulacao {
 
 			count++;
 		}
+                
+                LineChart chart = new LineChart("Simulador de Vôo","Simulação","Distância","Altura",xValues,yValues);
+                chart.pack( );
+                RefineryUtilities.centerFrameOnScreen( chart );
+                chart.setVisible( true );
 				
 		/*LineChart grafico = new LineChart("Simulação Trajetória", "Simulação");
 		
