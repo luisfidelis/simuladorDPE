@@ -4,72 +4,80 @@ import models.Rocket;
 
 public class Automacao {
 	
-	public static double corrigeAnguloAsa(Rocket foguete, double altitudeObjetivo){
-		
+	//------>Salva o erro da última vez que o método corrigeAnguloAsa foi chamada
+	static double erroAnterior;
+	//------>Salva o somatório dos erros ao longo da execução da simulação
+	static double erroAcumulado;
+
+	public static double corrigeAnguloAsa(Rocket foguete, double altitudeObjetivo, double ti
+											double kp, double td){
+
 		double altitudeEstimada;
+		double altitudeAnterior;
+
 		double erro;
 
-		RocketService auxService = new RocketService();
+		//----> Variáveis do cálculo das ações de automação
+		double acaoProporcional;
+		double acaoDerivativa;
+		double acaoIntegral;
+		double acaoFinal;
 
+		//----> Inicializa uma nova "simulação paralela", para verificar qual a altitude estimada
+		RocketService auxService = new RocketService();
 		auxService.initialize(foguete);
 
-		while(auxService.getAltitude_k_metros() > 200){
+		while(auxService.getAltitude_k_metros() > -10){
+
+			/*Encerra a simulação quando a altitude do foguete começa a diminuir, pois precisamos
+			somente da altitude máxima que ele atingirá*/
+			if(auxService.getAltitude_k_metros < altitudeAnterior)
+				break;
+
+			altitudeAnterior = auxService.getAltitude_k_metros();
 
 			auxService.atualizaMovimentoFoguete(foguete);
-			/*tempo = count * foguete.getDelta_tempo_segundos();
-
-			x = service.getX_k_metros();
-			y = service.getAltitude_k_metros();
-			
-			System.out.println("Tempo:" + tempo + " / X:" + x + " / Y:" + y);
-
-			count++;*/
 		}
 
+		//---> A altitude máxima será a maior altitude alcançada na "simulação paralela"
 		altitudeEstimada = auxService.getAltitudeMaxima();
 
 		erro = altitudeEstimada - altitudeObjetivo;
+
+		erroAcumulado += erro;
 		
-		System.out.println("OPAAAAAAAAAAAAAA:" + altitudeEstimada);
+		//System.out.println("OPAAAAAAAAAAAAAA:" + altitudeEstimada);
 
-		/*ESBOÇO DA FUNÇÃO DE AUTOMAÇÃO VINDA DO ARDUINO
-		double acp_var;
-		double ainst;
-		double aci_var;
-		double acd_var;
-		double ac_var;
-		double d_erro;
-		double erro_ant;
-		double kp;
-		double ki;
-		double kd;
-		
-		//Ação de controle proporcional
-		acp_var = kp * erro;
+		//-----> Calcula as ações de automação
+		acaoProporcional = calculaAcaoProporcional(kp, erro);
+		acaoDerivativa = calculaAcaoDerivativa(kp, td, erro, erroAnterior, foguete.getDelta_tempo_segundos);
+		acaoIntegral = calculaAcaoIntegral(ti, foguete.getDelta_tempo_segundos)
 
-		/*AQUI TINHA UM IF ESQUISITO
-		//Ação de controle integral
-		ainst = ki * erro;
-		aci_var += ainst;
+		acaoFinal = acaoProporcional + acaoDerivativa + acaoIntegral;
 
-		//Ação de controle derivativa
-		d_erro = erro - erro_ant;
-		erro_ant = erro;
-		/*AQUI TERMINA O IF ESQUISITO
-		
-		acd_var = (kd / 0.02) * d_erro;
+		erroAnterior = erro;
 
-		//Ação de controle
-		ac_var = acp_var + aci_var + acd_var;
+		//---> Limita o retorno da função, para impedir alterações muito bruscas
+		if(acaoFinal > 15)
+			acaoFinal = 15;
+		else if(acaoFinal < -15)
+			acaoFinal = -15;
 
-		if (ac_var > 100)
-			ac_var = 100;
-		else if(ac_var < 0)
-			ac_var = 0;
+		return acaoFinal;
+	}
 
-		return ac_var;*/
-		
-		return 0;
+	public static double calculaAcaoProporcional(double kp, double erro){
+		return kp * erro;
+	}
+
+	// ******Verificar como faremos na primeira iteracao, pois o erro ficará muito grande (erro - 0)****
+	public static double calculaAcaoDerivativa(double kp, double td, double erro, double erroAnterior, double delta_t){
+		return td * (erro - erroAnterior)/delta_t;
+	}
+
+	//*********Verificar se o cálculo está correto - 
+	public static double calculaAcaoIntegral(double kp, double ti, double delta_t){
+		return kp/ti * erroAcumulado * delta_t;
 	}
 
 }

@@ -3,14 +3,17 @@ package controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
-
-//import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 import models.Rocket;
 import services.Automacao;
 import services.RocketService;
-import util.Comunicacao; 
 
 public class Simulacao {
 
@@ -20,7 +23,8 @@ public class Simulacao {
 			double aceleracao_gravidade, double densidade_do_ar_kg_por_m3, double altitude_objetivo,
 			double comprimento_da_asa_metro, double corda_media_da_asa_metro, double delta_tempo_segundos,
 			double angulo_velocidade_inicial_rad, double coeficiente_lift_max,
-			double coeficiente_drag_asa, double coeficiente_drag_max){
+			double coeficiente_drag_asa, double coeficiente_drag_max, double ki,
+			double kp, double kd){
 
 		double tempo, x, y;
 		int count;
@@ -48,12 +52,12 @@ public class Simulacao {
 		
 		service.initialize(foguete);
 
-		while(service.getAltitude_k_metros() > 200){
+		while(service.getAltitude_k_metros() > -10){
 
 			service.atualizaMovimentoFoguete(foguete);
 			tempo = count * foguete.getDelta_tempo_segundos();
 
-			Automacao.corrigeAnguloAsa(foguete, 400);
+			Automacao.corrigeAnguloAsa(foguete, 400, ki, kp, kd);
 			
 			x = service.getX_k_metros();
 			y = service.getAltitude_k_metros();
@@ -67,12 +71,12 @@ public class Simulacao {
 
 			count++;
 		}
-		
+				
 		/*LineChart grafico = new LineChart("Simulação Trajetória", "Simulação");
 		
 		grafico.pack( );
-	      RefineryUtilities.centerFrameOnScreen( grafico );
-	      grafico.setVisible( true );*/
+	    RefineryUtilities.centerFrameOnScreen( grafico );
+	    grafico.setVisible( true );*/
 
 	}
 }
