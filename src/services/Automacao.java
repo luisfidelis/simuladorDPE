@@ -9,11 +9,11 @@ public class Automacao {
 	//------>Salva o somatório dos erros ao longo da execução da simulação
 	static double erroAcumulado;
 
-	public static double corrigeAnguloAsa(Rocket foguete, double altitudeObjetivo, double ti
+	public static double corrigeAnguloAsa(Rocket foguete, double altitudeObjetivo, double ti,
 											double kp, double td){
 
 		double altitudeEstimada;
-		double altitudeAnterior;
+		double altitudeAnterior = 0;
 
 		double erro;
 
@@ -31,7 +31,7 @@ public class Automacao {
 
 			/*Encerra a simulação quando a altitude do foguete começa a diminuir, pois precisamos
 			somente da altitude máxima que ele atingirá*/
-			if(auxService.getAltitude_k_metros < altitudeAnterior)
+			if(auxService.getAltitude_k_metros() < altitudeAnterior)
 				break;
 
 			altitudeAnterior = auxService.getAltitude_k_metros();
@@ -42,16 +42,17 @@ public class Automacao {
 		//---> A altitude máxima será a maior altitude alcançada na "simulação paralela"
 		altitudeEstimada = auxService.getAltitudeMaxima();
 
-		erro = altitudeEstimada - altitudeObjetivo;
+		//erro = altitudeEstimada - altitudeObjetivo;
+		erro = altitudeObjetivo - altitudeEstimada;
 
-		erroAcumulado += erro;
+		erroAcumulado += erro * foguete.getDelta_tempo_segundos();
 		
 		//System.out.println("OPAAAAAAAAAAAAAA:" + altitudeEstimada);
 
 		//-----> Calcula as ações de automação
 		acaoProporcional = calculaAcaoProporcional(kp, erro);
-		acaoDerivativa = calculaAcaoDerivativa(kp, td, erro, erroAnterior, foguete.getDelta_tempo_segundos);
-		acaoIntegral = calculaAcaoIntegral(ti, foguete.getDelta_tempo_segundos)
+		acaoDerivativa = calculaAcaoDerivativa(kp, td, erro, erroAnterior, foguete.getDelta_tempo_segundos());
+		acaoIntegral = calculaAcaoIntegral(kp, ti, foguete.getDelta_tempo_segundos());
 
 		acaoFinal = acaoProporcional + acaoDerivativa + acaoIntegral;
 
@@ -77,7 +78,7 @@ public class Automacao {
 
 	//*********Verificar se o cálculo está correto - 
 	public static double calculaAcaoIntegral(double kp, double ti, double delta_t){
-		return kp/ti * erroAcumulado * delta_t;
+		return kp/ti * erroAcumulado;
 	}
 
 }

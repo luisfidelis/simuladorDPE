@@ -7,7 +7,7 @@ import java.util.List;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-//import org.jfree.ui.ApplicationFrame;
+import org.jfree.ui.ApplicationFrame;
 //import org.jfree.ui.RefineryUtilities;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -28,8 +28,9 @@ public class Simulacao {
 			double coeficiente_drag_asa, double coeficiente_drag_max, double ki,
 			double kp, double kd){
 
-		double tempo, x, y;
+		double tempo, x, y, anguloAutomacao;
 		int count;
+		boolean corrigirAsa = true;
 		
 		List<Double> xValues = new ArrayList<Double>();
 		List<Double> yValues = new ArrayList<Double>();
@@ -37,12 +38,6 @@ public class Simulacao {
 		RocketService service = new RocketService();
 		
 		count = 0;
-
-		/********************************************
-		LEMBRAR DE VERIFICAR SE É NECESSÁRIO TRATAR OS SEGUINTES
-		DADOS VINDOS DO UF: delta_tempo_segundos, diametro_tubo_metros,
-		angul_velocidade_inicial_rad...
-		********************************************/
 
         final double x_inicial_metros = 0;
 		
@@ -53,37 +48,46 @@ public class Simulacao {
 				coeficiente_lift_max, coeficiente_drag_asa, coeficiente_drag_max);
 		
 		service.initialize(foguete);
-
+ 
 		while(service.getAltitude_k_metros() > -10){
 
 			service.atualizaMovimentoFoguete(foguete);
 			tempo = count * foguete.getDelta_tempo_segundos();
 
-			Automacao.corrigeAnguloAsa(foguete, 400, ki, kp, kd);
-			
+			if((service.getAltitude_k_metros() >= 400) && corrigirAsa){
+				corrigirAsa = false;
+				anguloAutomacao = Math.toRadians(-15);
+				foguete.setCoeficiente_lift(-41.397 * Math.pow(anguloAutomacao, 3) + 0.0049 * Math.pow(anguloAutomacao, 2) + 7.2957 * anguloAutomacao - 0.00006);
+				foguete.setCoeficiente_drag_asa(0.6999 * Math.pow(anguloAutomacao, 2) + 0.00005 * anguloAutomacao + 0.0093);
+			}
+
+			if(corrigirAsa){
+				anguloAutomacao = Math.toRadians(Automacao.corrigeAnguloAsa(foguete, 400, ki, kp, kd));
+				foguete.setCoeficiente_lift(-41.397 * Math.pow(anguloAutomacao, 3) + 0.0049 * Math.pow(anguloAutomacao, 2) + 7.2957 * anguloAutomacao - 0.00006);
+				foguete.setCoeficiente_drag_asa(0.6999 * Math.pow(anguloAutomacao, 2) + 0.00005 * anguloAutomacao + 0.0093);
+			}else{
+				anguloAutomacao = Math.toRadians(-15);
+				foguete.setCoeficiente_lift(-41.397 * Math.pow(anguloAutomacao, 3) + 0.0049 * Math.pow(anguloAutomacao, 2) + 7.2957 * anguloAutomacao - 0.00006);
+				foguete.setCoeficiente_drag_asa(0.6999 * Math.pow(anguloAutomacao, 2) + 0.00005 * anguloAutomacao + 0.0093);
+			}
+
 			x = service.getX_k_metros();
 			y = service.getAltitude_k_metros();
 			
 			xValues.add(x);
 			yValues.add(y);
-
-			//dados.addValue(x, "Trajetória", y);
 			
 			System.out.println("Tempo:" + tempo + " / X:" + x + " / Y:" + y);
+			if(corrigirAsa)
+				System.out.println("Retorno da função de automação:" + anguloAutomacao);
 
 			count++;
 		}
                 
-                LineChart chart = new LineChart("Simulador de Vôo","Simulação","Distância","Altura",xValues,yValues);
-                chart.pack( );
-                RefineryUtilities.centerFrameOnScreen( chart );
-                chart.setVisible( true );
-				
-		/*LineChart grafico = new LineChart("Simulação Trajetória", "Simulação");
-		
-		grafico.pack( );
-	    RefineryUtilities.centerFrameOnScreen( grafico );
-	    grafico.setVisible( true );*/
+        LineChart chart = new LineChart("Simulador de Vôo","Simulação","Distância","Altitude",xValues,yValues);
+        chart.pack( );
+        RefineryUtilities.centerFrameOnScreen( chart );
+        chart.setVisible( true );
 
 	}
 }

@@ -165,7 +165,7 @@ public class Properties extends JFrame {
      jtf_envergaduraAsa.setBounds(230,335,100,20);
      
      jtf_coefLiftSimul.setText("0");
-     jtf_coefDragSimul.setText("0.0007");
+     jtf_coefDragSimul.setText("0.007");
      jtf_coefLiftMax.setText("3");
      jtf_coefDragMax.setText("0.024");
      jtf_cordaMediaAsa.setText("0.025");

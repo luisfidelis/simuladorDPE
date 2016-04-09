@@ -63,8 +63,10 @@ public class RocketService {
         
         forca_resultante_k_newtons = Math.sqrt(Math.pow(forca_lift_k_newtons * Math.cos(angulo_k_rad+Math.PI/2) + forca_drag_k_newtons * Math.cos(Math.PI + angulo_k_rad), 2) + Math.pow(forca_lift_k_newtons*Math.sin(Math.PI/2+angulo_k_rad) + forca_drag_k_newtons * Math.sin(Math.PI + angulo_k_rad)-massa_foguete_kilogramas*aceleracao_gravidade, 2));
         angulo_forca_resultante_k_rad = Math.atan2(forca_lift_k_newtons*Math.sin(Math.PI/2+angulo_k_rad) + forca_drag_k_newtons * Math.sin(Math.PI + angulo_k_rad) - massa_foguete_kilogramas * aceleracao_gravidade, forca_lift_k_newtons * Math.cos(angulo_k_rad+Math.PI/2) + forca_drag_k_newtons * Math.cos(Math.PI + angulo_k_rad));
+        
         altitude_k_metros += velocidade_y_k_metros_por_segundo * delta_tempo_segundos;
         x_k_metros += velocidade_x_k_metros_por_segundo * delta_tempo_segundos;
+        
         velocidade_x_k_metros_por_segundo += forca_resultante_k_newtons * Math.cos(angulo_forca_resultante_k_rad) / massa_foguete_kilogramas * delta_tempo_segundos;
         velocidade_y_k_metros_por_segundo += forca_resultante_k_newtons * Math.sin(angulo_forca_resultante_k_rad) / massa_foguete_kilogramas * delta_tempo_segundos;
         velocidade_k_metros_por_segundo = Math.sqrt(Math.pow(velocidade_x_k_metros_por_segundo, 2) + Math.pow(velocidade_y_k_metros_por_segundo, 2));
