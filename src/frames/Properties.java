@@ -195,16 +195,16 @@ public class Properties extends JFrame {
      
      // ----- DADOS DA AUTOMAÇÃO
      
-     lbl_DADOS_AUTOMACAO.setBounds(370,365,200,20);
+     lbl_DADOS_AUTOMACAO.setBounds(370,20,200,20);
     
     
-     lbl_ki.setBounds(360,50,200,20);
-     lbl_kp.setBounds(360,75,200,20);
-     lbl_kd.setBounds(360,100,200,20);
+     lbl_ki.setBounds(360,50,30,20);
+     lbl_kp.setBounds(360,75,30,20);
+     lbl_kd.setBounds(360,100,30,20);
      
-     jtf_ki.setBounds(570,50,200,20);
-     jtf_kp.setBounds(570,75,200,20);
-     jtf_kd.setBounds(570,100,200,20);
+     jtf_ki.setBounds(400,50,200,20);
+     jtf_kp.setBounds(400,75,200,20);
+     jtf_kd.setBounds(400,100,200,20);
      
      
         

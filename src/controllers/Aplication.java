@@ -10,7 +10,7 @@ public class Aplication {
 		MainFrame frame = new MainFrame();
 
           //   Properties flightProperties = new Properties();
-             MainFrame mainFrame = new MainFrame();   
+             //MainFrame mainFrame = new MainFrame();   
             
             
           //Simulacao.run();

@@ -28,7 +28,8 @@ public class Simulacao {
 			double coeficiente_drag_asa, double coeficiente_drag_max, double ki,
 			double kp, double kd){
 
-		double tempo, x, y, anguloAutomacao;
+		double tempo, x, y, anguloAutomacao, yMax;
+                yMax = 0;
 		int count;
 		boolean corrigirAsa = true;
 		
@@ -76,7 +77,9 @@ public class Simulacao {
 			
 			xValues.add(x);
 			yValues.add(y);
-			
+			if(yMax <= y){
+                            yMax = y;
+                        }
 			System.out.println("Tempo:" + tempo + " / X:" + x + " / Y:" + y);
 			if(corrigirAsa)
 				System.out.println("Retorno da função de automação:" + anguloAutomacao);
@@ -84,7 +87,7 @@ public class Simulacao {
 			count++;
 		}
                 
-        LineChart chart = new LineChart("Simulador de Vôo","Simulação","Distância","Altitude",xValues,yValues);
+        LineChart chart = new LineChart("Simulador de Vôo","Simulação","Distância","Altitude",xValues,yValues, yMax);
         chart.pack( );
         RefineryUtilities.centerFrameOnScreen( chart );
         chart.setVisible( true );

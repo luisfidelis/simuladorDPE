@@ -16,13 +16,13 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 public class LineChart extends ApplicationFrame
 {
-   public LineChart( String applicationTitle , String chartTitle,String xAxis, String yAxis , List<Double> xValues, List<Double> yValues )
+   public LineChart( String applicationTitle , String chartTitle,String xAxis, String yAxis , List<Double> xValues, List<Double> yValues, Double yMax )
    {
       super(applicationTitle);
       JFreeChart lineChart = ChartFactory.createLineChart(
          chartTitle,
          xAxis,yAxis,
-         createDataset(xValues,yValues),
+         createDataset(xValues,yValues,yMax),
          PlotOrientation.VERTICAL,
          true,true,false);
          
@@ -32,11 +32,12 @@ public class LineChart extends ApplicationFrame
       
    }
 
-   private DefaultCategoryDataset createDataset(List<Double> xValues, List<Double> yValues )
+   private DefaultCategoryDataset createDataset(List<Double> xValues, List<Double> yValues, Double yMax )
    {
       DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
       for(int i = 0; i < xValues.size(); i++){
         dataset.addValue( yValues.get(i) , "trajetória" , xValues.get(i) );
+        dataset.addValue( yMax , "Altura Máxima" , xValues.get(i) );
       }
       return dataset;
    }
